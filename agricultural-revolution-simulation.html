@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agricultural Revolution Simulation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .tile {
+      background-color: #f2f2f2;
+      padding: 1rem;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .tile.foraging {
+      background-color: #c8e6c9;
+    }
+    
+    .tile.agriculture {
+      background-color: #ffcdd2;
+    }
+    
+    .score-board {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+    
+    .score-board div {
+      background-color: #f2f2f2;
+      padding: 1rem;
+      border-radius: 5px;
+    }
+    
+    button {
+      display: block;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Agricultural Revolution Simulation</h1>
+    <div class="game-board"></div>
+    <div class="score-board">
+      <div>Foraging Tiles: <span id="foraging-score">0</span></div>
+      <div>Agricultural Tiles: <span id="agriculture-score">0</span></div>
+    </div>
+    <button id="reset-button">Reset Game</button>
+
+    <script>
+      // Game variables
+      let foragingScore = 0;
+      let agricultureScore = 0;
+      const gameBoard = document.querySelector('.game-board');
+      const foragingScoreDisplay = document.getElementById('foraging-score');
+      const agricultureScoreDisplay = document.getElementById('agriculture-score');
+      const resetButton = document.getElementById('reset-button');
+
+      // Generate the game board
+      function generateGameBoard() {
+        for (let i = 0; i < 25; i++) {
+          const tile = document.createElement('div');
+          tile.classList.add('tile');
+          tile.addEventListener('click', toggleTile);
+          gameBoard.appendChild(tile);
+        }
+      }
+
+      // Toggle the tile between foraging and agriculture
+      function toggleTile(event) {
+        const tile = event.target;
+        if (tile.classList.contains('foraging')) {
+          tile.classList.remove('foraging');
+          tile.classList.add('agriculture');
+          agricultureScore++;
+          agricultureScoreDisplay.textContent = agricultureScore;
+        } else {
+          tile.classList.remove('agriculture');
+          tile.classList.add('foraging');
+          foragingScore++;
+          foragingScoreDisplay.textContent = foragingScore;
+        }
+      }
+
+      // Reset the game
+      function resetGame() {
+        foragingScore = 0;
+        agricultureScore = 0;
+        foragingScoreDisplay.textContent = foragingScore;
+        agricultureScoreDisplay.textContent = agricultureScore;
+        gameBoard.innerHTML = '';
+        generateGameBoard();
+      }
+
+      // Initialize the game
+      generateGameBoard();
+      resetButton.addEventListener('click', resetGame);
+    </script>
+  </div>
+</body>
+</html>
